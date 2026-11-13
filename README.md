@@ -85,15 +85,10 @@ Github Cli 一键执行所有构建：
 
 ```shell
 gh workflow run make.yml -f makeversion=w1126h264 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=false
-gh workflow run make.yml -f makeversion=w1126h264 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=true
-# gh workflow run make.yml -f makeversion=w1126h264 -f UpdateFromUUP=false -f MultiEdition=true -f SkipCheck=false
 
 gh workflow run make.yml -f makeversion=w11lt2464 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=false
-gh workflow run make.yml -f makeversion=w11lt2464 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=true
-# gh workflow run make.yml -f makeversion=w11lt2464 -f UpdateFromUUP=false -f MultiEdition=true -f SkipCheck=false
 
 gh workflow run make.yml -f makeversion=w1022h264 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=false
-# gh workflow run make.yml -f makeversion=w1022h264 -f UpdateFromUUP=false -f MultiEdition=true -f SkipCheck=false
 
 gh workflow run make.yml -f makeversion=w10lt2164 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=false
 ```

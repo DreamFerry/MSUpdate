@@ -25,7 +25,7 @@ foreach ($Category in $CurrentState.Keys) {
 
     if ($LatestVersion) {
         $IsNewerVersion = Compare-Version -CurrentVersion $CurrentVersion -LatestVersion $LatestVersion
-        
+
         if ($IsNewerVersion) {
             Write-Host -ForegroundColor Green "New version of $Category is available: $LatestVersion (current: $CurrentVersion)"
             $CurrentState.$Category.Version = $LatestVersion

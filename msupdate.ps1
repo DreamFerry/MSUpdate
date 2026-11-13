@@ -5,12 +5,8 @@ Import-Module "$PSScriptRoot\Modules\request.psm1"
 Import-Module "$PSScriptRoot\Modules\aria2.psm1"
 Import-Module "$PSScriptRoot\Modules\msstore.psm1"
 
-# Define Helper Functions
-
-# set system info
 switch ($MakeVersion) {
     "w1126h264" {
-        # make 11 26h2 x64
         $os_ver = "11"
         $os_rsversion = "26H2"
         $os_build = "26200"
@@ -19,7 +15,6 @@ switch ($MakeVersion) {
         $os_arch = "x64"
         $os_lang = "zh-cn"
         $os_path = "/系统/MSDN/NT10.0_Win11/26100_24H2/1742_OEM/X23-81948_26100.1742.240906-0331.ge_release_svc_refresh_CLIENTCHINA_OEM_x64FRE_zh-cn.iso"
-        # $os_path = "/系统/MSDN/NT10.0_Win11/26100_24H2/1742_RTM/Win11_24H2_China_GGK_Chinese_Simplified_x64.iso"
         $os_md5 = "e5c05b0215d3e4af2f2fd4ea16252f91"
         $uupid = (Invoke-UUPWebRequestLink `
                 -Url "known.php?q=category:w11-26h2" `
@@ -28,7 +23,6 @@ switch ($MakeVersion) {
                 -FirstLink
         ).Replace("selectlang.php?id=", "")
         if ($true -ne $UpdateFromUUP) {
-            # 26H2 shares the 26100 servicing branch (26200-26300 -> 26100), so use the 26100 WU script
             $WUScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/script_26100_x64.meta4"
         }
         $Miracast = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-amd64.cab"
@@ -40,7 +34,6 @@ switch ($MakeVersion) {
         $msstore = $true
     }
     "w11lt2464" {
-        # make 11 ltsc2024 x64
         $os_ver = "11"
         $os_rsversion = "24H2"
         $os_build = "26100"
@@ -57,14 +50,12 @@ switch ($MakeVersion) {
                 -FirstLink
         ).Replace("selectlang.php?id=", "")
         if ($true -ne $UpdateFromUUP) {
-            # Use Windows Update patches from adavak script instead of UUP
             $WUScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/script_26100_x64.meta4"
         }
         $iexplorer = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-InternetExplorer-Optional-Package-amd64.cab"
         $iexplorerLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-InternetExplorer-Optional-Package-amd64-zh-CN.cab"
     }
     "w1022h264" {
-        # make 10 22h2 x64
         $os_ver = "10"
         $os_rsversion = "22H2"
         $os_build = "19045"
@@ -83,7 +74,6 @@ switch ($MakeVersion) {
         if ($true -ne $UpdateFromUUP) {
             $WUScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/script_19041_x64.meta4"
         }
-        # FOD components (Miracast, IE, EnterpriseG, language pack) are always fetched from UUP
         $Miracast = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-amd64.cab"
         $MiracastLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-amd64-zh-cn.cab"
         $entgpack = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-EditionSpecific-EnterpriseG-Package.ESD"
@@ -92,7 +82,6 @@ switch ($MakeVersion) {
         $msstore = $true
     }
     "w10lt2164" {
-        # make 10 ltsc2021 x64
         $os_ver = "10"
         $os_rsversion = "21H2"
         $os_build = "19044"
@@ -124,19 +113,16 @@ switch ($MakeVersion) {
     }
 }
 
-# ltsxfix
 if ($os_edition -like "*LTS*") {
     $msstore = $true
     $os_release = $os_edition
 } else {
     $os_release = $os_rsversion
-    # os_edition fix
     if ($MultiEdition -eq $true) {
         $os_edition = "Multi"
     }
 }
 
-# remove temporaty files
 Remove-Item -Path ".\temp\" -Recurse -ErrorAction Ignore
 Remove-Item -Path ".\entg\" -Recurse -ErrorAction Ignore
 Remove-Item -Path ".\patch\" -Recurse -ErrorAction Ignore
@@ -145,7 +131,6 @@ Remove-Item -Path ".\W10UI.cmd" -Recurse -ErrorAction Ignore
 New-Item -Path ".\temp\" -ItemType "directory" -ErrorAction Ignore
 New-Item -Path ".\bin\" -ItemType "directory" -ErrorAction Ignore
 
-# Installing dependencies
 function Test-Hashes {
     param (
         [hashtable]$Hashes,
@@ -159,7 +144,6 @@ function Test-Hashes {
         $actualHash = (Get-FileHash -Path $file -Algorithm $Algorithm).Hash
         Write-Host -ForegroundColor Gray "Actual  : $actualHash"
         if ($actualHash -ne $expectedHash) {
-            # return $false
             Write-Error "$file hash not match."
         } else {
             Write-Host -ForegroundColor Green "$file hash match."
@@ -178,8 +162,8 @@ if (-not (Test-Path -Path ".\bin\aria2c.exe")) {
     Expand-Archive -Path ".\temp\aria2.zip" -DestinationPath ".\temp" -Force
     Move-Item -Path ".\temp\aria2-1.37.0-win-64bit-build1\aria2c.exe" -Destination ".\bin\aria2c.exe" -Force
 }
-Test-SHA256 @{ 
-    ".\bin\aria2c.exe" = "BE2099C214F63A3CB4954B09A0BECD6E2E34660B886D4C898D260FEBFE9D70C2" 
+Test-SHA256 @{
+    ".\bin\aria2c.exe" = "BE2099C214F63A3CB4954B09A0BECD6E2E34660B886D4C898D260FEBFE9D70C2"
 }
 if (-not (Test-Path -Path ".\bin\wimlib-imagex.exe")) {
     Write-Host "wimlib-imagex not found, downloading..."
@@ -188,7 +172,7 @@ if (-not (Test-Path -Path ".\bin\wimlib-imagex.exe")) {
     Copy-Item -Path ".\temp\wimlib\wimlib-imagex.exe" -Destination ".\bin\wimlib-imagex.exe"
     Copy-Item -Path ".\temp\wimlib\libwim-15.dll" -Destination ".\bin\libwim-15.dll"
 }
-Test-SHA256 @{ 
+Test-SHA256 @{
     ".\bin\wimlib-imagex.exe" = "34C0C4165591AD1F592837ED99D08273C58D6ED3FE0ED6360CF34E7B0739B353"
     ".\bin\libwim-15.dll"     = "BA853EE1E3FC5F5798581F02E8E066BA07A0A2375F0BF444FE981431FD508495"
 }
@@ -197,11 +181,10 @@ if (-not (Test-Path -Path ".\bin\PSFExtractor.exe")) {
     Invoke-WebRequest -Uri 'https://github.com/Secant1006/PSFExtractor/releases/download/v3.07/PSFExtractor-v3.07-x64.zip' -OutFile ".\temp\PSFExtractor.zip"
     Expand-Archive -Path ".\temp\PSFExtractor.zip" -DestinationPath ".\bin" -Force
 }
-Test-SHA256 @{ 
+Test-SHA256 @{
     ".\bin\PSFExtractor.exe" = "B8A08DD9592E64843056CF5FE518E782FD7ED517D1EE32B70A99B7D7E5767F6C"
 }
 
-# get wupatch
 if ($UpdateFromUUP) {
     $UUPScript = "https://uupdump.net/get.php?id=$uupid&pack=0&edition=updateOnly&aria2=2"
     .\bin\aria2c.exe -c -R --retry-wait=5 --check-certificate=false -d ".\temp" -o "UUPScript.txt" "$UUPScript"
@@ -222,60 +205,39 @@ if ($null -ne $NETScript) {
     .\bin\aria2c.exe -c -R --retry-wait=5 --check-certificate=false -x16 -s16 -j5 -d ".\patch" -M ".\temp\NETScript.meta4" --metalink-language="zh-CN"
     if (!$?) { Write-Error "NETScript Download Failed!" }
 }
-# Convert WIM+PSF to msu
-# Link: https://github.com/abbodi1406/BatUtil/issues/49
-# if (Test-Path ".\patch\Windows*.wim") {
-#     $patchPath = Resolve-Path ".\patch"
-#     Write-Host "Making MSU ($patchPath)..."
-#     Invoke-WebRequest -Uri 'https://github.com/abbodi1406/WHD/raw/refs/heads/master/scripts/PSFX_MSU_5.zip' -OutFile .\temp\PSFX_MSU.zip
-#     Expand-Archive -Path .\temp\PSFX_MSU.zip -DestinationPath .\temp\PSFX_MSU -Force
-#     . ".\temp\PSFX_MSU\PSFX2MSU.cmd" "$patchPath"
-# }
 
-# get fod
 if ($null -ne $Miracast) {
-    # Microsoft-Windows-WirelessDisplay-FOD-Package.cab
     Invoke-Aria2Download -Uri $Miracast -Destination ".\fod\Miracast\" -Name "update.cab"
     expand -f:* ".\fod\Miracast\update.cab" ".\fod\Miracast\" >nul
-    # Microsoft-Windows-WirelessDisplay-FOD-Package~zh-CN.cab
     Invoke-Aria2Download -Uri $MiracastLP -Destination ".\fod\MiracastLP\" -Name "update.cab"
     expand -f:* ".\fod\MiracastLP\update.cab" ".\fod\MiracastLP\" >nul
 }
 if ($null -ne $iexplorer) {
-    # microsoft-windows-internetexplorer-optional-package.cab
     Invoke-Aria2Download -Uri $iexplorer -Destination ".\fod\iexplorer\" -Name "update.cab"
     expand -f:* ".\fod\iexplorer\update.cab" ".\fod\iexplorer\" >nul
 }
 if ($null -ne $iexplorerLP) {
-    # Microsoft-Windows-InternetExplorer-Optional-Package-amd64-zh-cn.cab
     Invoke-Aria2Download -Uri $iexplorerLP -Destination ".\fod\iexplorerLP\" -Name "update.cab"
     expand -f:* ".\fod\iexplorerLP\update.cab" ".\fod\iexplorerLP\" >nul
 }
-# get entg
 if (($null -ne $entgpack) -and ($true -eq $MultiEdition)) {
-    # Microsoft-Windows-EditionSpecific-EnterpriseG-Package.ESD
     Invoke-Aria2Download -Uri $entgpack -Destination ".\temp\" -Name "entg.esd"
     ."C:\Program Files\7-Zip\7z.exe" x ".\temp\entg.esd" -o".\entg" -r
 }
 if (($null -ne $entgLP) -and ($true -eq $MultiEdition)) {
-    # Microsoft-Windows-EditionSpecific-EnterpriseG-Package.ESD
     Invoke-Aria2Download -Uri $entgLP -Destination ".\temp\" -Name "entgLP.esd"
     ."C:\Program Files\7-Zip\7z.exe" x ".\temp\entgLP.esd" -o".\entgLP" -r
 }
 
-# get msstore
 $MSStoreScript = "echo nostore"
 if ($true -eq $msstore) {
     Remove-Item -Path "$PSScriptRoot\msstore" -Force -ErrorAction SilentlyContinue
     New-Item -ItemType Directory -Path "$PSScriptRoot\msstore" -ErrorAction SilentlyContinue
     if ($os_edition -like "*LTS*") {
-        # Get-Appx 'Microsoft.VCLibs.140.00'
         Invoke-Aria2Download -Uri "https://aka.ms/Microsoft.VCLibs.$os_arch.14.00.Desktop.appx" -Destination "$PSScriptRoot\msstore\Microsoft.VCLibs.140.00.msix"
     } else {
-        # Store APPs (/SkipLicense, may not work without one-time Store activation online)
-        Get-Appx '9WZDNCRFJBMP' # 'Microsoft.WindowsStore'
+        Get-Appx '9WZDNCRFJBMP'
 
-        # WinGet (DesktopAppInstaller) DeploymentKit
         $WingetLicense = 'e53e159d00e04f729cc2180cffd1c02e_License1.xml'
         $WingetDepZip = "DesktopAppInstaller_Dependencies.zip"
         $WingetBundle = "Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
@@ -296,7 +258,6 @@ if ($true -eq $msstore) {
         }
         $WingetDepArgs = ($WingetDepFiles | ForEach-Object { "/DependencyPackagePath:`"%~dp0msstore\$($_.Name)`"" }) -join ' '
 
-        # Windows Terminal DeploymentKit（PreinstallKit）
         function Resolve-WindowsTerminalVersion {
             try {
                 $rel = Invoke-RestMethod -Uri 'https://api.github.com/repos/microsoft/terminal/releases/latest' -Headers @{ 'User-Agent' = 'msupdate' } -TimeoutSec 10
@@ -312,7 +273,7 @@ if ($true -eq $msstore) {
         $WtAsset = "Microsoft.WindowsTerminal_${WtVersion}_8wekyb3d8bbwe.msixbundle_Windows10_PreinstallKit.zip"
         Invoke-Aria2Download -Uri "https://github.com/microsoft/terminal/releases/download/v$WtVersion/$WtAsset" -Destination "$PSScriptRoot\msstore" -Name $WtAsset
         Expand-Archive -Path "$PSScriptRoot\msstore\$WtAsset" -DestinationPath "$PSScriptRoot\msstore\Terminal" -Force
-   
+
         $WtBundle = Get-ChildItem "$PSScriptRoot\msstore\Terminal" -Filter "*.msixbundle" -File | Select-Object -First 1
         $WtLicense = Get-ChildItem "$PSScriptRoot\msstore\Terminal" -Filter "*_License1.xml" -File | Select-Object -First 1
         $WtProvxml = Get-ChildItem "$PSScriptRoot\msstore\Terminal" -Filter "*.provxml" -File | Select-Object -First 1
@@ -357,20 +318,17 @@ echo ============================================================
     }
 }
 
-if ($true -eq $SkipCheck) { 
-    # get appraiserres.dll from Windows 10 19041 latest setup
+if ($true -eq $SkipCheck) {
     Invoke-WebRequest -Uri "https://github.com/user-attachments/files/17200856/appraiserres.zip" -OutFile ".\temp\appraiserres.zip"
     Expand-Archive -Path ".\temp\appraiserres.zip" -DestinationPath ".\temp"
 }
 if ($null -eq $Cleanup) { $Cleanup = $true }
 
-# abbodi1406/W10UI, auto inject hook
 $W10UI = "@chcp 65001`n"
 $W10UI += (Invoke-WebRequest -Uri "https://github.com/abbodi1406/BatUtil/raw/refs/heads/master/W10UI/W10UI.cmd").Content
 $W10UI = $W10UI.Replace("if %AddDrivers%==1 call :doDrv", "call %~dp0hook_beforewim.cmd`nif %AddDrivers%==1 call :doDrv")
 $W10UI = $W10UI.Replace("if %net35%==1 call :enablenet35", "call %~dp0hook_beforenet35.cmd`nif %net35%==1 call :enablenet35")
 
-# write beforenet35 hook script
 @"
 echo.
 echo ============================================================
@@ -400,7 +358,6 @@ if exist "!mountdir!\Windows\WinSxS\*microsoft-edge-webview*" (
 )
 "@ | Out-File -FilePath ".\hook_beforenet35.cmd"
 
-# write beforewim hook script
 @"
 echo.
 echo ============================================================
@@ -710,12 +667,9 @@ goto :eof
 "@ | Out-File -FilePath ".\hook_beforedvd.cmd"
 }
 
-# write W10UI
 $W10UI | Out-File -FilePath ".\W10UI.cmd" -Encoding utf8
 $W10UI = ""
 
-# get osimage
-# get original system direct link
 if ($null -ne $os_path) {
     Write-Host "Get Original System Image Link for $os_path..."
     $obj = Invoke-RestMethod -Uri "https://list.xrgzs.top/api/fs/get" `
@@ -746,29 +700,10 @@ if ($os_md5) {
     Test-MD5 @{".\temp\$os_file" = $os_md5 }
 }
 
-# $isopath = Resolve-Path -Path ".\temp\$os_file"
-# $isomount = (Mount-DiskImage -ImagePath $isopath -PassThru | Get-Volume).DriveLetter
-# Target        =${isomount}:
 ."C:\Program Files\7-Zip\7z.exe" x ".\temp\$os_file" -o".\ISO" -r
-
-# select 1 edition only
-# if ($null -ne $SelectEdition) {
-#     .\bin\wimlib-imagex.exe info ".\ISO\sources\install.wim" --extract-xml ".\temp\WIMInfo.xml"
-#     $WIMInfo = [xml](Get-Content ".\temp\WIMInfo.xml")
-#     $WIMIndex = $WIMInfo.WIM.IMAGE | Where-Object {$_.WINDOWS.EDITIONID -eq "$SelectEdition"} | Select-Object -ExpandProperty INDEX
-#     $WIMIndexs = $WIMInfo.WIM.IMAGE.Index | Measure-Object | Select-Object -ExpandProperty Count
-#     for ($i = $WIMIndexs; $i -gt $WIMIndex; $i--) {
-#         # .\bin\wimlib-imagex.exe delete ".\ISO\sources\install.wim" $i --soft
-#         Remove-WindowsImage -ImagePath ".\ISO\sources\install.wim" -Index $i
-#     }
-#     for ($i = 1; $i -lt $WIMIndex; $i++) {
-#         Remove-WindowsImage -ImagePath ".\ISO\sources\install.wim" -Index 1
-#     }
-# }
 
 .\bin\wimlib-imagex.exe info ".\ISO\sources\install.wim" --extract-xml ".\temp\WIMInfo2.xml"
 Get-Content ".\temp\WIMInfo2.xml"
-# write W10UI conf
 @"
 [W10UI-Configuration]
 Target        =%cd%\ISO
@@ -802,17 +737,14 @@ AddDrivers    =0
 Drv_Source    =\Drivers
 "@ | Out-File -FilePath ".\W10UI.ini"
 
-# execute W10UI script
 .\W10UI.cmd
 
-# ensure iso exists
 $isoFiles = Get-ChildItem -Path ".\*.iso" -File
 if (-not $isoFiles) {
     Write-Error "No ISO files found in the directory. Please ensure the script has generated the ISO files correctly."
     exit 1
 }
 
-# rename
 $isoFiles | ForEach-Object {
     $NewName = $_.Name
     if ($os_edition -like "*LTS*") {
@@ -841,7 +773,6 @@ $isoFiles | ForEach-Object {
     }
 }
 
-# get hash
 Get-ChildItem -Path ".\*.iso" -File | ForEach-Object {
     Write-Host "Getting hash for $($_.Name)..."
     $FileInfo = [ordered] @{}

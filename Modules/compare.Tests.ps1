@@ -2,7 +2,6 @@
 Import-Module Pester
 
 BeforeAll {
-    # Import the module to test
     Import-Module "$PSScriptRoot/compare.psm1"
 }
 

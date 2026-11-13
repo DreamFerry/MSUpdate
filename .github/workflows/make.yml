@@ -54,7 +54,6 @@ jobs:
       - name: Upload ISO to OneDrive
         shell: pwsh
         run: |
-          # Installing dependencies
           if (-not (Test-Path -Path ".\bin\rclone.conf")) {
               Write-Error "rclone conf not found"
           }
@@ -64,25 +63,19 @@ jobs:
             Expand-Archive -Path .\temp\rclone.zip -DestinationPath .\temp\ -Force
             Copy-Item -Path .\temp\rclone-*-windows-amd64\rclone.exe -Destination .\bin\rclone.exe
           }
-          # upload to cloud
           Get-ChildItem -Path ".\*.json" -File | ForEach-Object {
-            # read json
             $json = Get-Content $_.FullName | Convertfrom-Json
 
             if (-not (Test-Path ".\$($json.name)")) {
               throw "File not found!"
             }
-            
-            # upload iso
-            
+
             Write-Host "Uploading $(Resolve-Path $json.name) to ${{ vars.RCLONE_PATH }}\$($json.os_ver)\$($json.os_release)\$($json.os_version)..."
             .\bin\rclone.exe copy "$(Resolve-Path $json.name)" "${{ vars.RCLONE_PATH }}\$($json.os_ver)\$($json.os_release)\$($json.os_version)" --progress
 
-            # upload json
             Write-Host "Uploading $(Resolve-Path $_.FullName) to ${{ vars.RCLONE_PATH }}\$($json.os_ver)\$($json.os_release)\$($json.os_version)..."
             .\bin\rclone.exe copy "$(Resolve-Path $_.FullName)" "${{ vars.RCLONE_PATH }}\$($json.os_ver)\$($json.os_release)\$($json.os_version)" --progress
 
-            # upload non-skipcheck latest version json
             if ($json.msupdate.skipcheck -ne $true) {
               Write-Host "Uploading $(Resolve-Path $_.FullName) to ${{ vars.RCLONE_PATH }}\$($json.os_ver)\$($json.os_release)\latest_$($json.os_arch).json..."
               .\bin\rclone.exe copyto "$(Resolve-Path $_.FullName)" "${{ vars.RCLONE_PATH }}\$($json.os_ver)\$($json.os_release)\latest_$($json.os_arch).json" --progress

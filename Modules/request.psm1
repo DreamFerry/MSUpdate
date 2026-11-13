@@ -141,44 +141,18 @@ function Get-UUPFiles {
         throw "Null response received from UUP API."
     }
 
-
-    # {
-    #   "response": {
-    #     "apiVersion": "string", // Current UUP dump API version
-    #     "updateName": "string", // Update title, such as Windows 10 Insider Preview 19577.1000 (rs_prerelease)
-    #     "arch": "string", // Update architecture, for example x86
-    #     "build": "string", // Update build number, for example 19577.1000
-    #     "files": { // All files contained in the package
-    #       "string": { // File name, such as 'core_en-us.esd', 'microsoft-windows-client-features-package.esd', etc.
-    #         "sha1": "string", // The file's SHA1 checksum.
-    #         "size": "string", // File size in bytes
-    #         "url": "string", // File download link, 'null' if noLinks=1
-    #         "uuid": "string", // File UUIDv4, 'null' if noLinks=1 used
-    #         "expire": "string", // Link expiration date, '0' if noLinks=1 used
-    #         "debug": "string" // Raw data from Microsoft servers, 'null' if noLinks=1 used
-    #       },
-    #       ...
-    #     }
-    #   },
-    #   "jsonApiVersion": "string" // Current JSON API version
-    # }
-
     Write-Host -ForegroundColor Green "Remote UUP JSON Api version: $($response.jsonApiVersion)"
     Write-Host -ForegroundColor Green "Update Name: $($response.response.updateName)"
     Write-Host -ForegroundColor Green "Architecture: $($response.response.arch)"
     Write-Host -ForegroundColor Green "Build Number: $($response.response.build)"
 
-    # convert to hashtable for easier access
     $filesHashtable = @{}
     foreach ($fileName in $response.response.files.Keys) {
         $filesHashtable[$fileName] = $response.response.files.$fileName
-        # $file = $response.response.files.$fileName
-        # Write-Host -ForegroundColor Cyan "File: $fileName, Size: $($file.size), SHA1: $($file.sha1), URL: $($file.url)"
     }
 
     return $filesHashtable
 }
-
 
 $UUPFilesCacheById = @{}
 function Get-UUPFile {

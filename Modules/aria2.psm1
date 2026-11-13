@@ -1,4 +1,3 @@
-
 function Invoke-Aria2Download {
     param (
         [Parameter(Mandatory = $true, Position = 0)]
@@ -9,12 +8,12 @@ function Invoke-Aria2Download {
 
         [Parameter(Position = 2)]
         [string]$Name,
-        
+
         [switch]$Big,
 
         [string[]]$Options = @()
     )
-    
+
     function Get-RedirectedUrl {
         param(
             [Parameter(Mandatory, ValueFromPipeline)][string]$Uri,
@@ -32,7 +31,7 @@ function Invoke-Aria2Download {
             }
         } catch { return $Uri }
     }
-    
+
     function Get-Aria2Error($exitcode) {
         $codes = @{
             0  = 'All downloads were successful'
@@ -75,7 +74,6 @@ function Invoke-Aria2Download {
         return $codes[$exitcode]
     }
 
-    # aria2 options
     $Options += @(
         '--no-conf=true'
         '--continue'
@@ -86,7 +84,6 @@ function Invoke-Aria2Download {
         '--check-certificate=false'
     )
 
-    # set task info
     $Uri = Get-RedirectedUrl -Uri $Uri
     $Options += "`"$Uri`""
     if ($Destination) {
@@ -102,10 +99,8 @@ function Invoke-Aria2Download {
         )
     }
 
-    # build aria2 command
     $aria2 = "& .\bin\aria2c.exe $($Options -join ' ')"
 
-    # handle aria2 console output with retry
     $maxRetries = 2
     $retryCount = 0
     $success = $false
@@ -126,7 +121,6 @@ function Invoke-Aria2Download {
         }
     }
 
-    # handle aria2 error after all retries
     if (-not $success) {
         Write-Error "Download failed! (Error ${LASTEXITCODE}) $(Get-Aria2Error $LASTEXITCODE)"
     }

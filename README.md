@@ -67,10 +67,6 @@ MSUpdate 能帮助你轻松获取最新集成更新版本的 Windows 系统镜�
 
 效率更高，方便快速装机
 
-### 提供 ARM64 版本
-
-### 提供部分旧版本 Build 镜像
-
 ## 获取镜像
 
 <https://sys.xrgzs.top/get/msupdate>
@@ -83,57 +79,29 @@ MSUpdate 能帮助你轻松获取最新集成更新版本的 Windows 系统镜�
 
 MSUpdate 现在使用 GitHub Actions 的 Windows Runner 进行自动构建，能持续获取到最新的 Windows 系统映像。
 
-Windows 10 LTSB 2016（x64/x86）通过微软版本信息页自动检查系统 Build 号，并使用 `UpdateFromUUP=false` 构建。
+目前自动检查并构建 Windows 11 26H2、Windows 11 LTSC 2024、Windows 10 22H2、Windows 10 LTSC 2021 四个版本。
 
 Github Cli 一键执行所有构建：
 
 ```shell
-gh workflow run make.yml -f makeversion=w1126h1a64 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=false
-# gh workflow run make.yml -f makeversion=w1126h1a64 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=true
-gh workflow run make.yml -f makeversion=w1126h164 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=false
-gh workflow run make.yml -f makeversion=w1126h164 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=true
-
-gh workflow run make.yml -f makeversion=w1126h2a64 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=false
-# gh workflow run make.yml -f makeversion=w1126h2a64 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=true
 gh workflow run make.yml -f makeversion=w1126h264 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=false
 gh workflow run make.yml -f makeversion=w1126h264 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=true
+# gh workflow run make.yml -f makeversion=w1126h264 -f UpdateFromUUP=false -f MultiEdition=true -f SkipCheck=false
 
-gh workflow run make.yml -f makeversion=w11lt24a64 -f UpdateFromUUP=true -f MultiEdition=false -f SkipCheck=false
-# gh workflow run make.yml -f makeversion=w11lt24a64 -f UpdateFromUUP=true -f MultiEdition=false -f SkipCheck=true
 gh workflow run make.yml -f makeversion=w11lt2464 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=false
 gh workflow run make.yml -f makeversion=w11lt2464 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=true
+# gh workflow run make.yml -f makeversion=w11lt2464 -f UpdateFromUUP=false -f MultiEdition=true -f SkipCheck=false
 
-gh workflow run make.yml -f makeversion=w1123h2a64 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=false
-# gh workflow run make.yml -f makeversion=w1123h2a64 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=true
-gh workflow run make.yml -f makeversion=w1123h264 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=false
-gh workflow run make.yml -f makeversion=w1123h264 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=true
-# gh workflow run make.yml -f makeversion=w1123h264 -f UpdateFromUUP=false -f MultiEdition=true -f SkipCheck=false
-# gh workflow run make.yml -f makeversion=w1123h264 -f UpdateFromUUP=false -f MultiEdition=true -f SkipCheck=true
-
-gh workflow run make.yml -f makeversion=w1022h2a64 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=false
 gh workflow run make.yml -f makeversion=w1022h264 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=false
-gh workflow run make.yml -f makeversion=w1022h232 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=false
 # gh workflow run make.yml -f makeversion=w1022h264 -f UpdateFromUUP=false -f MultiEdition=true -f SkipCheck=false
-# gh workflow run make.yml -f makeversion=w1022h232 -f UpdateFromUUP=false -f MultiEdition=true -f SkipCheck=false
 
 gh workflow run make.yml -f makeversion=w10lt2164 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=false
-gh workflow run make.yml -f makeversion=w10lt2132 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=false
-# gh workflow run make.yml -f makeversion=w10lt2164 -f UpdateFromUUP=false -f MultiEdition=false -f SkipCheck=false
-# gh workflow run make.yml -f makeversion=w10lt2132 -f UpdateFromUUP=false -f MultiEdition=false -f SkipCheck=false
-
-gh workflow run make.yml -f makeversion=w10lt1964 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=false
-gh workflow run make.yml -f makeversion=w10lt1932 -f UpdateFromUUP=true -f MultiEdition=true -f SkipCheck=false
-# gh workflow run make.yml -f makeversion=w10lt1964 -f UpdateFromUUP=false -f MultiEdition=false -f SkipCheck=false
-# gh workflow run make.yml -f makeversion=w10lt1932 -f UpdateFromUUP=false -f MultiEdition=false -f SkipCheck=false
-
-gh workflow run make.yml -f makeversion=w10lt1664 -f UpdateFromUUP=false -f MultiEdition=false -f SkipCheck=false
-gh workflow run make.yml -f makeversion=w10lt1632 -f UpdateFromUUP=false -f MultiEdition=false -f SkipCheck=false
 ```
 
 手动构建方法：
 
 ```powershell
-$MakeVersion   = [string] "w1164"
+$MakeVersion   = [string] "w1126h264"
 $UpdateFromUUP = [bool]   $True
 $MultiEdition  = [bool]   $True
 $SkipCheck     = [bool]   $True
@@ -143,18 +111,11 @@ $SkipCheck     = [bool]   $True
 目前支持的参数有：
 
 - MakeVersion：选择制作的系统版本
-  - w1126h264
-  - w1123h264
-  - w1022h264
-  - w1022h232
-  - w11lt2464
-  - w10lt2164
-  - w10lt2132
-  - w10lt1964
-  - w10lt1932
-  - w10lt1664
-  - w10lt1632
-- UpdateFromUUP：从 UUPDUMP 获取更新(1809+)
+  - w1126h264（Windows 11 26H2 x64）
+  - w11lt2464（Windows 11 LTSC 2024 x64）
+  - w1022h264（Windows 10 22H2 x64）
+  - w10lt2164（Windows 10 LTSC 2021 x64）
+- UpdateFromUUP：从 UUPDUMP 获取更新；设为 false 时 Win10/Win11 均使用 adavak/Win_ISO_Patching_Scripts 的补丁清单构建，但 FOD 组件（Miracast、IE、EnterpriseG、语言包）始终从 UUP 获取
 - MultiEdition：转换多版本(LTSC 勿选)
 - SkipCheck：跳过硬件检测(Win11)
 

@@ -9,85 +9,6 @@ Import-Module "$PSScriptRoot\Modules\msstore.psm1"
 
 # set system info
 switch ($MakeVersion) {
-    "w1126h1a64" {
-        # make 11 26h1 arm64
-        $os_ver = "11"
-        $os_rsversion = "26H1"
-        $os_build = "28000"
-        $os_edition = "CoreCountrySpecific"
-        $os_display = "Windows $os_ver $os_rsversion"
-        $os_arch = "arm64"
-        $os_lang = "zh-cn"
-        $os_path = "/系统/Windows/Win10/Res/28000/arm64/28000.1.251103-1709.BR_RELEASE_CLIENTCHINA_OEM_A64FRE_ZH-CN.ISO"
-        $os_md5 = "E8E187CAC22085FED8420BE8B97DE54A"
-        $UpdateFromUUP = $true
-        $uupid = (Invoke-UUPWebRequestLink `
-                -Url "known.php?q=category:w11-26h1" `
-                -LinkFilter @("*selectlang.php?id=*") `
-                -ContentFilter @("*Windows 11,*arm64*") `
-                -FirstLink
-        ).Replace("selectlang.php?id=", "")
-        $Miracast = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-arm64.cab"
-        $MiracastLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-arm64-zh-CN.cab"
-        $iexplorer = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-InternetExplorer-Optional-Package-arm64.cab"
-        $iexplorerLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-InternetExplorer-Optional-Package-arm64-zh-CN.cab"
-        $entgpack = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-EditionSpecific-EnterpriseG-Package.ESD"
-        $entgLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-Client-LanguagePack-Package-arm64-zh-CN.esd"
-        $msstore = $true
-    }
-    "w1126h164" {
-        # make 11 26h1 x64
-        $os_ver = "11"
-        $os_rsversion = "26H1"
-        $os_build = "28000"
-        $os_edition = "CoreCountrySpecific"
-        $os_display = "Windows $os_ver $os_rsversion"
-        $os_arch = "x64"
-        $os_lang = "zh-cn"
-        $os_path = "/系统/Windows/Win10/Res/28000/amd64/28000.1.251103-1709.BR_RELEASE_CLIENTCHINA_OEM_X64FRE_ZH-CN.ISO"
-        $os_md5 = "521276FBA781C5B151E89596EE32FC3D"
-        $UpdateFromUUP = $true
-        $uupid = (Invoke-UUPWebRequestLink `
-                -Url "known.php?q=category:w11-26h1" `
-                -LinkFilter @("*selectlang.php?id=*") `
-                -ContentFilter @("*Windows 11,*amd64*") `
-                -FirstLink
-        ).Replace("selectlang.php?id=", "")
-        $Miracast = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-amd64.cab"
-        $MiracastLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-amd64-zh-CN.cab"
-        $iexplorer = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-InternetExplorer-Optional-Package-amd64.cab"
-        $iexplorerLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-InternetExplorer-Optional-Package-amd64-zh-CN.cab"
-        $entgpack = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-EditionSpecific-EnterpriseG-Package.ESD"
-        $entgLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-Client-LanguagePack-Package-amd64-zh-CN.esd"
-        $msstore = $true
-    }
-    "w1126h2a64" {
-        # make 11 26h2 arm64
-        $os_ver = "11"
-        $os_rsversion = "26H2"
-        $os_build = "26200"
-        $os_edition = "CoreCountrySpecific"
-        $os_display = "Windows $os_ver $os_rsversion"
-        $os_arch = "arm64"
-        $os_lang = "zh-cn"
-        $os_path = "/系统/MSDN/NT10.0_Win11/26100_24H2/1742_OEM/X23-81947_26100.1742.240906-0331.ge_release_svc_refresh_CLIENTCHINA_OEM_A64FRE_zh-cn.iso"
-        # $os_path = "/系统/MSDN/NT10.0_Win11/26100_24H2/1742_RTM/Win11_24H2_China_GGK_Chinese_Simplified_Arm64.iso"
-        $os_md5 = "8cc8080e1c4b08ccd0ad4435ac0f2e5c"
-        $UpdateFromUUP = $true
-        $uupid = (Invoke-UUPWebRequestLink `
-                -Url "known.php?q=category:w11-26h2" `
-                -LinkFilter @("*selectlang.php?id=*") `
-                -ContentFilter @("*Windows 11,*arm64*") `
-                -FirstLink
-        ).Replace("selectlang.php?id=", "")
-        $Miracast = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-arm64.cab"
-        $MiracastLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-arm64-zh-CN.cab"
-        $iexplorer = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-InternetExplorer-Optional-Package-arm64.cab"
-        $iexplorerLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-InternetExplorer-Optional-Package-arm64-zh-CN.cab"
-        $entgpack = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-EditionSpecific-EnterpriseG-Package.ESD"
-        $entgLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-Client-LanguagePack-Package-arm64-zh-CN.esd"
-        $msstore = $true
-    }
     "w1126h264" {
         # make 11 26h2 x64
         $os_ver = "11"
@@ -100,13 +21,16 @@ switch ($MakeVersion) {
         $os_path = "/系统/MSDN/NT10.0_Win11/26100_24H2/1742_OEM/X23-81948_26100.1742.240906-0331.ge_release_svc_refresh_CLIENTCHINA_OEM_x64FRE_zh-cn.iso"
         # $os_path = "/系统/MSDN/NT10.0_Win11/26100_24H2/1742_RTM/Win11_24H2_China_GGK_Chinese_Simplified_x64.iso"
         $os_md5 = "e5c05b0215d3e4af2f2fd4ea16252f91"
-        $UpdateFromUUP = $true
         $uupid = (Invoke-UUPWebRequestLink `
                 -Url "known.php?q=category:w11-26h2" `
                 -LinkFilter @("*selectlang.php?id=*") `
                 -ContentFilter @("*Windows 11,*amd64*") `
                 -FirstLink
         ).Replace("selectlang.php?id=", "")
+        if ($true -ne $UpdateFromUUP) {
+            # 26H2 shares the 26100 servicing branch (26200-26300 -> 26100), so use the 26100 WU script
+            $WUScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/script_26100_x64.meta4"
+        }
         $Miracast = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-amd64.cab"
         $MiracastLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-amd64-zh-CN.cab"
         $iexplorer = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-InternetExplorer-Optional-Package-amd64.cab"
@@ -114,28 +38,6 @@ switch ($MakeVersion) {
         $entgpack = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-EditionSpecific-EnterpriseG-Package.ESD"
         $entgLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-Client-LanguagePack-Package-amd64-zh-CN.esd"
         $msstore = $true
-    }
-    "w11lt24a64" {
-        # make 11 ltsc2024 arm64
-        $os_ver = "11"
-        $os_rsversion = "24H2"
-        $os_build = "26100"
-        $os_edition = "LTSC2024"
-        $os_display = "Windows $os_ver LTSC 2024"
-        $os_arch = "arm64"
-        $os_lang = "zh-cn"
-        $os_path = "/系统/Windows/Win10/Res/26100/arm64/26100.1742.240906-0331.ge_release_svc_refresh_CLIENT_ENTERPRISES_OEM_A64FRE_zh-cn.iso"
-        $os_md5 = "53ec7752fceea6f95329a06955c3ff59"
-        $UpdateFromUUP = $true
-        $uupid = (Invoke-UUPWebRequestLink `
-                -Url "known.php?q=category:w11-24h2" `
-                -LinkFilter @("*selectlang.php?id=*") `
-                -ContentFilter @("*Windows 11,*arm64*") `
-                -FirstLink
-        ).Replace("selectlang.php?id=", "")
-        $iexplorer = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-InternetExplorer-Optional-Package-arm64.cab"
-        $iexplorerLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-InternetExplorer-Optional-Package-arm64-zh-CN.cab"
-        $MultiEdition = $false
     }
     "w11lt2464" {
         # make 11 ltsc2024 x64
@@ -148,100 +50,18 @@ switch ($MakeVersion) {
         $os_lang = "zh-cn"
         $os_path = "/系统/MSDN/NT10.0_Win11/26100_LTSC2024/1742_RTM/zh-cn_windows_11_enterprise_ltsc_2024_x64_dvd_cff9cd2d.iso"
         $os_md5 = "1a13ade0178082432f90df951a88842f"
-        $UpdateFromUUP = $true
         $uupid = (Invoke-UUPWebRequestLink `
                 -Url "known.php?q=category:w11-24h2" `
                 -LinkFilter @("*selectlang.php?id=*") `
                 -ContentFilter @("*Windows 11,*amd64*") `
                 -FirstLink
         ).Replace("selectlang.php?id=", "")
+        if ($true -ne $UpdateFromUUP) {
+            # Use Windows Update patches from adavak script instead of UUP
+            $WUScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/script_26100_x64.meta4"
+        }
         $iexplorer = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-InternetExplorer-Optional-Package-amd64.cab"
         $iexplorerLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-InternetExplorer-Optional-Package-amd64-zh-CN.cab"
-    }
-    "w1123h2a64" {
-        # make 11 23h2 arm64
-        $os_ver = "11"
-        $os_rsversion = "23H2"
-        $os_build = "22631"
-        $os_edition = "CoreCountrySpecific"
-        $os_display = "Windows $os_ver $os_rsversion"
-        $os_arch = "arm64"
-        $os_lang = "zh-cn"
-        $os_path = "/系统/Windows/Win10/Res/22621/22621.1.220506-1250.NI_RELEASE_CLIENTCHINA_OEM_A64FRE_ZH-CN.ISO"
-        $os_md5 = "6ef5a0a8eb488a8064d8ca33f64ff835"
-        $uupid = (Invoke-UUPWebRequestLink `
-                -Url "known.php?q=category:w11-23h2" `
-                -LinkFilter @("*selectlang.php?id=*") `
-                -ContentFilter @("*Windows 11*arm64*") `
-                -FirstLink
-        ).Replace("selectlang.php?id=", "")
-        $Miracast = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-arm64.cab"
-        $MiracastLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-arm64-zh-CN.cab"
-        $iexplorer = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-InternetExplorer-Optional-Package-arm64.cab"
-        $iexplorerLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-InternetExplorer-Optional-Package-arm64-zh-CN.cab"
-        $entgpack = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-EditionSpecific-EnterpriseG-Package.ESD"
-        $entgLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-Client-LanguagePack-Package_zh-cn-arm64-zh-cn.esd"
-        $msstore = $true
-    }
-    "w1123h264" {
-        # make 11 23h2 x64
-        $os_ver = "11"
-        $os_rsversion = "23H2"
-        $os_build = "22631"
-        $os_edition = "CoreCountrySpecific"
-        $os_display = "Windows $os_ver $os_rsversion"
-        $os_arch = "x64"
-        $os_lang = "zh-cn"
-        $os_path = "/系统/MSDN/NT10.0_Win11/22631_23H2/2861_202312/Win11_23H2_China_GGK_Chinese_Simplified_x64v2.iso"
-        $os_md5 = "99835f9f2efee5f30d0348f749484a88"
-        if ($true -eq $UpdateFromUUP) {
-            $uupid = (Invoke-UUPWebRequestLink `
-                    -Url "known.php?q=category:w11-23h2" `
-                    -LinkFilter @("*selectlang.php?id=*") `
-                    -ContentFilter @("*Windows 11*amd64*") `
-                    -FirstLink
-            ).Replace("selectlang.php?id=", "")
-            $Miracast = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-amd64.cab"
-            $MiracastLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-amd64-zh-CN.cab"
-            $iexplorer = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-InternetExplorer-Optional-Package-amd64.cab"
-            $iexplorerLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-InternetExplorer-Optional-Package-amd64-zh-CN.cab"
-            $entgpack = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-EditionSpecific-EnterpriseG-Package.ESD"
-            $entgLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-Client-LanguagePack-Package_zh-cn-amd64-zh-cn.esd"
-        } else {
-            $WUScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/script_22621_x64.meta4"
-            $Miracast = "https://list.xrgzs.top/d/pxy/System/Windows/Win10/Res/22621/amd64/Microsoft-Windows-WirelessDisplay-FOD-Package~31bf3856ad364e35~amd64~~.cab"
-            $MiracastLP = "https://list.xrgzs.top/d/pxy/System/Windows/Win10/Res/22621/amd64/Microsoft-Windows-WirelessDisplay-FOD-Package~31bf3856ad364e35~amd64~zh-CN~.cab"
-            $iexplorer = "https://list.xrgzs.top/d/pxy/System/Windows/Win10/Res/22621/amd64/Microsoft-Windows-InternetExplorer-Optional-Package~31bf3856ad364e35~amd64~~.cab"
-            $iexplorerLP = "https://list.xrgzs.top/d/pxy/System/Windows/Win10/Res/22621/amd64/Microsoft-Windows-InternetExplorer-Optional-Package~31bf3856ad364e35~amd64~zh-CN~.cab"
-            $entgpack = "https://list.xrgzs.top/d/pxy/System/Windows/Win10/Res/22621/amd64/Microsoft-Windows-EditionSpecific-EnterpriseG-Package.ESD"
-            $entgLP = "https://list.xrgzs.top/d/pxy/System/Windows/Win10/Res/22621/amd64/Microsoft-Windows-Client-LanguagePack-Package_zh-cn-amd64-zh-cn.esd"
-        }
-        $msstore = $true
-    }
-    "w1022h2a64" {
-        # make 10 22h2 arm64
-        $os_ver = "10"
-        $os_rsversion = "22H2"
-        $os_build = "19045"
-        $os_edition = "CoreCountrySpecific"
-        $os_display = "Windows $os_ver $os_rsversion"
-        $os_arch = "arm64"
-        $os_lang = "zh-cn"
-        $os_path = "/系统/Windows/Win10/Res/19041/arm64/19041.1.191206-1406.VB_RELEASE_CLIENTCHINA_OEM_A64FRE_ZH-CN.ISO"
-        $os_md5 = "d84ddb4150d7c699a5dabf91a1430786"
-        $UpdateFromUUP = $true
-        $uupid = (Invoke-UUPWebRequestLink `
-                -Url "known.php?q=category:w10-22h2" `
-                -LinkFilter @("*selectlang.php?id=*") `
-                -ContentFilter @("*Windows 10,*arm64*") `
-                -FirstLink
-        ).Replace("selectlang.php?id=", "")
-        $Miracast = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-arm64.cab"
-        $MiracastLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-arm64-zh-cn.cab"
-        $entgpack = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-EditionSpecific-EnterpriseG-Package.ESD"
-        $entgLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-Client-LanguagePack-Package_zh-cn-arm64-zh-cn.esd"
-        $NETScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/netfx4.8/script_netfx4.8_19041_arm64.meta4"
-        $msstore = $true
     }
     "w1022h264" {
         # make 10 22h2 x64
@@ -254,57 +74,21 @@ switch ($MakeVersion) {
         $os_lang = "zh-cn"
         $os_path = "/系统/MSDN/NT10.0_Win10/19045_22H2/2006_RTM/Win10_22H2_China_GGK_Chinese_Simplified_x64.iso"
         $os_md5 = "67615f768a49392d5e080e25a0036975"
-        if ($true -eq $UpdateFromUUP) {
-            $uupid = (Invoke-UUPWebRequestLink `
-                    -Url "known.php?q=category:w10-22h2" `
-                    -LinkFilter @("*selectlang.php?id=*") `
-                    -ContentFilter @("*Windows 10,*amd64*") `
-                    -FirstLink
-            ).Replace("selectlang.php?id=", "")
-            $Miracast = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-amd64.cab"
-            $MiracastLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-amd64-zh-cn.cab"
-            $entgpack = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-EditionSpecific-EnterpriseG-Package.ESD"
-            $entgLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-Client-LanguagePack-Package_zh-cn-amd64-zh-cn.esd"
-        } else {
+        $uupid = (Invoke-UUPWebRequestLink `
+                -Url "known.php?q=category:w10-22h2" `
+                -LinkFilter @("*selectlang.php?id=*") `
+                -ContentFilter @("*Windows 10,*amd64*") `
+                -FirstLink
+        ).Replace("selectlang.php?id=", "")
+        if ($true -ne $UpdateFromUUP) {
             $WUScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/script_19041_x64.meta4"
-            $Miracast = "https://list.xrgzs.top/d/pxy/System/Windows/Win10/Res/19041/amd64/Microsoft-Windows-WirelessDisplay-FOD-Package~31bf3856ad364e35~amd64~~.cab"
-            $MiracastLP = "https://list.xrgzs.top/d/pxy/System/Windows/Win10/Res/19041/amd64/Microsoft-Windows-WirelessDisplay-FOD-Package~31bf3856ad364e35~amd64~zh-CN~.cab"
-            $entgpack = "https://list.xrgzs.top/d/pxy/System/Windows/Win10/Res/19041/amd64/Microsoft-Windows-EditionSpecific-EnterpriseG-Package.ESD"
-            $entgLP = "https://list.xrgzs.top/d/pxy/System/Windows/Win10/Res/19041/amd64/Microsoft-Windows-Client-LanguagePack-Package_zh-cn-amd64-zh-cn.esd"
         }
+        # FOD components (Miracast, IE, EnterpriseG, language pack) are always fetched from UUP
+        $Miracast = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-amd64.cab"
+        $MiracastLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-amd64-zh-cn.cab"
+        $entgpack = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-EditionSpecific-EnterpriseG-Package.ESD"
+        $entgLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-Client-LanguagePack-Package_zh-cn-amd64-zh-cn.esd"
         $NETScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/netfx4.8.1/script_netfx4.8.1_19041_x64.meta4"
-        $msstore = $true
-    }
-    "w1022h232" {
-        # make 10 22h2 x86
-        $os_ver = "10"
-        $os_rsversion = "22H2"
-        $os_build = "19045"
-        $os_edition = "CoreCountrySpecific"
-        $os_display = "Windows $os_ver $os_rsversion"
-        $os_arch = "x86"
-        $os_lang = "zh-cn"
-        $os_path = "/系统/MSDN/NT10.0_Win10/19045_22H2/2006_RTM/Win10_22H2_China_GGK_Chinese_Simplified_x32.iso"
-        $os_md5 = "e85fc523e95410fb49901afab1e02876"
-        if ($true -eq $UpdateFromUUP) {
-            $uupid = (Invoke-UUPWebRequestLink `
-                    -Url "known.php?q=category:w10-22h2" `
-                    -LinkFilter @("*selectlang.php?id=*") `
-                    -ContentFilter @("*Windows 10,*x86*") `
-                    -FirstLink
-            ).Replace("selectlang.php?id=", "")
-            $Miracast = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-x86.cab"
-            $MiracastLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-WirelessDisplay-FOD-Package-x86-zh-cn.cab"
-            $entgpack = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-EditionSpecific-EnterpriseG-Package.ESD"
-            $entgLP = Get-UUPFileLink -Id $uupid -FileName "Microsoft-Windows-Client-LanguagePack-Package_zh-cn-x86-zh-cn.esd"
-        } else {
-            $WUScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/script_19041_x86.meta4"
-            $Miracast = "https://list.xrgzs.top/d/pxy/System/Windows/Win10/Res/19041/x86/Microsoft-Windows-WirelessDisplay-FOD-Package~31bf3856ad364e35~x86~~.cab"
-            $MiracastLP = "https://list.xrgzs.top/d/pxy/System/Windows/Win10/Res/19041/x86/Microsoft-Windows-WirelessDisplay-FOD-Package~31bf3856ad364e35~x86~zh-CN~.cab"
-            $entgpack = "https://list.xrgzs.top/d/pxy/System/Windows/Win10/Res/19041/x86/Microsoft-Windows-EditionSpecific-EnterpriseG-Package.ESD"
-            $entgLP = "https://list.xrgzs.top/d/pxy/System/Windows/Win10/Res/19041/x86/Microsoft-Windows-Client-LanguagePack-Package_zh-cn-x86-zh-cn.esd"
-        }
-        $NETScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/netfx4.8.1/script_netfx4.8.1_19041_x86.meta4"
         $msstore = $true
     }
     "w10lt2164" {
@@ -318,123 +102,21 @@ switch ($MakeVersion) {
         $os_lang = "zh-cn"
         $os_path = "/系统/MSDN/NT10.0_Win10/19044_LTSC2021/zh-cn_windows_10_enterprise_ltsc_2021_x64_dvd_033b7312.iso"
         $os_md5 = "2579b3865c0591ead3a2b45af3cabeee"
-        if ($true -eq $UpdateFromUUP) {
-            $uupid = (Invoke-UUPWebRequestLink `
-                    -Url "known.php?q=category:w10-21h2" `
-                    -LinkFilter @("*selectlang.php?id=*") `
-                    -ContentFilter @("*Windows 10,*amd64*") `
-                    -FirstLink
-            ).Replace("selectlang.php?id=", "")
-        } else {
+        $uupid = (Invoke-UUPWebRequestLink `
+                -Url "known.php?q=category:w10-21h2" `
+                -LinkFilter @("*selectlang.php?id=*") `
+                -ContentFilter @("*Windows 10,*amd64*") `
+                -FirstLink
+        ).Replace("selectlang.php?id=", "")
+        if ($true -ne $UpdateFromUUP) {
             $WUScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/script_19041_x64.meta4"
         }
         $NETScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/netfx4.8.1/script_netfx4.8.1_19041_x64.meta4"
     }
-    "w10lt2132" {
-        # make 10 ltsc2021 x86
-        $os_ver = "10"
-        $os_rsversion = "21H2"
-        $os_build = "19044"
-        $os_edition = "LTSC2021"
-        $os_display = "Windows $os_ver LTSC 2021"
-        $os_arch = "x86"
-        $os_lang = "zh-cn"
-        $os_path = "/系统/MSDN/NT10.0_Win10/19044_LTSC2021/zh-cn_windows_10_enterprise_ltsc_2021_x86_dvd_30600d9c.iso"
-        $os_md5 = "a4f6f8f67d9a59ad462ff51506c5cd3a"
-        if ($true -eq $UpdateFromUUP) {
-            $uupid = (Invoke-UUPWebRequestLink `
-                    -Url "known.php?q=category:w10-21h2" `
-                    -LinkFilter @("*selectlang.php?id=*") `
-                    -ContentFilter @("*Windows 10,*x86*") `
-                    -FirstLink
-            ).Replace("selectlang.php?id=", "")
-        } else {
-            $WUScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/script_19041_x86.meta4"
-        }
-        $NETScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/netfx4.8.1/script_netfx4.8.1_19041_x86.meta4"
-    }
-    "w10lt1964" {
-        # make 10 ltsc2019 x64
-        $os_ver = "10"
-        $os_rsversion = "1809"
-        $os_build = "17763"
-        $os_edition = "LTSC2019"
-        $os_display = "Windows $os_ver LTSC 2019"
-        $os_arch = "x64"
-        $os_lang = "zh-cn"
-        $os_path = "/系统/MSDN/NT10.0_Win10/17763_LTSC2019/1_RTM/cn_windows_10_enterprise_ltsc_2019_x64_dvd_2efc9ac2.iso"
-        $os_md5 = "2eb4d2bf684f3852458991c654907d12"
-        if ($true -eq $UpdateFromUUP) {
-            $uupid = (Invoke-UUPWebRequestLink `
-                    -Url "known.php?q=category:w10-1809" `
-                    -LinkFilter @("*selectlang.php?id=*") `
-                    -ContentFilter @("*Windows 10*amd64*") `
-                    -FirstLink
-            ).Replace("selectlang.php?id=", "")
-        } else {
-            $WUScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/script_17763_x64.meta4"
-        }
-        $NETScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/netfx4.8/script_netfx4.8_17763_x64.meta4"
-    }
-    "w10lt1932" {
-        # make 10 ltsc2019 x32
-        $os_ver = "10"
-        $os_rsversion = "1809"
-        $os_build = "17763"
-        $os_edition = "LTSC2019"
-        $os_display = "Windows $os_ver LTSC 2019"
-        $os_arch = "x86"
-        $os_lang = "zh-cn"
-        $os_path = "/系统/MSDN/NT10.0_Win10/17763_LTSC2019/1_RTM/cn_windows_10_enterprise_ltsc_2019_x86_dvd_2908ee10.iso"
-        $os_md5 = "c5d58f64093ed0693aa770e3f7b98e13"
-        if ($true -eq $UpdateFromUUP) {
-            $uupid = (Invoke-UUPWebRequestLink `
-                    -Url "known.php?q=category:w10-1809" `
-                    -LinkFilter @("*selectlang.php?id=*") `
-                    -ContentFilter @("*Windows 10*x86*") `
-                    -FirstLink
-            ).Replace("selectlang.php?id=", "")
-        } else {
-            $WUScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/script_17763_x86.meta4"
-        }
-        $NETScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/netfx4.8/script_netfx4.8_17763_x86.meta4"
-    }
-    "w10lt1664" {
-        # make 10 ltsb2016 x64 (unsupport uup)
-        $os_ver = "10"
-        $os_rsversion = "1607"
-        $os_build = "14393"
-        $os_edition = "LTSB2016"
-        $os_display = "Windows $os_ver LTSB 2016"
-        $os_arch = "x64"
-        $os_lang = "zh-cn"
-        $os_path = "/系统/MSDN/NT10.0_Win10/14393_LTSB2016/cn_windows_10_enterprise_2016_ltsb_x64_dvd_9060409.iso"
-        $os_md5 = "0343dc55184a406af9a8ab0d964cccc6"
-        $WUScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/script_14393_x64.meta4"
-        $NETScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/netfx4.8/script_netfx4.8_14393_x64.meta4"
-        $MultiEdition = $false
-    }
-    "w10lt1632" {
-        # make 10 ltsb2016 x86 (unsupport uup)
-        $os_ver = "10"
-        $os_rsversion = "1607"
-        $os_build = "14393"
-        $os_edition = "LTSB2016"
-        $os_display = "Windows $os_ver LTSB 2016"
-        $os_arch = "x86"
-        $os_lang = "zh-cn"
-        # $os_path = "/系统/MSDN/NT10.0_Win10/14393_LTSB2016/cn_windows_10_enterprise_2016_ltsb_x86_dvd_9057089.iso"
-        # $os_md5 = "e628fac2494476612967fdd86ae1b547"
-        $os_path = "/系统/Windows/Win10/LTSB2016/cn_windows_10_enterprise_2016_ltsb_x86_dvd_9057089_FixSSShim.iso"
-        $os_md5 = "dd23b8a175d76564c257b189fa7a3916"
-        $WUScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/script_14393_x86.meta4"
-        $NETScript = "https://raw.githubusercontent.com/adavak/Win_ISO_Patching_Scripts/master/Scripts/netfx4.8/script_netfx4.8_14393_x86.meta4"
-        $MultiEdition = $false
-    }
     default {
         Write-Error "Not defined or Unsupported OS version!
         Example:
-            `$MakeVersion   = [string] `"w1064`"
+            `$MakeVersion   = [string] `"w1126h264`"
             `$UpdateFromUUP = [bool]   `$False
             `$MultiEdition  = [bool]   `$True
             .\msupdate.ps1

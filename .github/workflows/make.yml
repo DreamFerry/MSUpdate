@@ -38,46 +38,17 @@ jobs:
       - name: Big Task
         shell: pwsh
         run: |
-          $MakeVersion   = [string] "${{ inputs.MakeVersion }}"
+          $MakeVersion   = [string] "${{ inputs.makeversion }}"
           $UpdateFromUUP = [bool]   $${{ inputs.UpdateFromUUP }}
           $MultiEdition  = [bool]   $${{ inputs.MultiEdition }}
           $SkipCheck     = [bool]   $${{ inputs.SkipCheck }}
           .\msupdate.ps1
 
-      - name: Get rclone Config
-        uses: actions/checkout@v6
-        with:
-          repository: ${{ vars.RCLONE_REPO }}
-          token: ${{ secrets.RCLONE_TOKEN }}
-          path: bin
-
       - name: Upload ISO to OneDrive
         shell: pwsh
+        env:
+          ONEDRIVE_REFRESH_TOKEN: ${{ secrets.ONEDRIVE_REFRESH_TOKEN }}
+          ONEDRIVE_SITE_ID: ${{ secrets.ONEDRIVE_SITE_ID }}
+          ONEDRIVE_PATH: ${{ secrets.ONEDRIVE_PATH }}
         run: |
-          if (-not (Test-Path -Path ".\bin\rclone.conf")) {
-              Write-Error "rclone conf not found"
-          }
-          if (-not (Test-Path -Path ".\bin\rclone.exe")) {
-            Write-Host "rclone not found, downloading..."
-            Invoke-WebRequest -Uri 'https://downloads.rclone.org/rclone-current-windows-amd64.zip' -outfile .\temp\rclone.zip
-            Expand-Archive -Path .\temp\rclone.zip -DestinationPath .\temp\ -Force
-            Copy-Item -Path .\temp\rclone-*-windows-amd64\rclone.exe -Destination .\bin\rclone.exe
-          }
-          Get-ChildItem -Path ".\*.json" -File | ForEach-Object {
-            $json = Get-Content $_.FullName | Convertfrom-Json
-
-            if (-not (Test-Path ".\$($json.name)")) {
-              throw "File not found!"
-            }
-
-            Write-Host "Uploading $(Resolve-Path $json.name) to ${{ vars.RCLONE_PATH }}\$($json.os_ver)\$($json.os_release)\$($json.os_version)..."
-            .\bin\rclone.exe copy "$(Resolve-Path $json.name)" "${{ vars.RCLONE_PATH }}\$($json.os_ver)\$($json.os_release)\$($json.os_version)" --progress
-
-            Write-Host "Uploading $(Resolve-Path $_.FullName) to ${{ vars.RCLONE_PATH }}\$($json.os_ver)\$($json.os_release)\$($json.os_version)..."
-            .\bin\rclone.exe copy "$(Resolve-Path $_.FullName)" "${{ vars.RCLONE_PATH }}\$($json.os_ver)\$($json.os_release)\$($json.os_version)" --progress
-
-            if ($json.msupdate.skipcheck -ne $true) {
-              Write-Host "Uploading $(Resolve-Path $_.FullName) to ${{ vars.RCLONE_PATH }}\$($json.os_ver)\$($json.os_release)\latest_$($json.os_arch).json..."
-              .\bin\rclone.exe copyto "$(Resolve-Path $_.FullName)" "${{ vars.RCLONE_PATH }}\$($json.os_ver)\$($json.os_release)\latest_$($json.os_arch).json" --progress
-            }
-          }
+          .\.github\workflows\upload.ps1

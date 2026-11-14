@@ -116,6 +116,20 @@ $SkipCheck     = [bool]   $True
 
 构建完成后会生成 BuildLabEx 样式的 .iso 文件和 .iso.json 的校验信息文件
 
+### 上传到 OneDrive
+
+构建产物通过 rclone 上传到 OneDrive，需要在仓库 Settings → Secrets and variables → Actions → Secrets 中配置以下内容。
+
+| 名称 | 是否必填 | 作用 |
+| --- | --- | --- |
+| `ONEDRIVE_REFRESH_TOKEN` | 必填 | OneDrive 刷新令牌，通过 [api.oplist.org](https://api.oplist.org) 获取 |
+| `ONEDRIVE_SITE_ID` | 可选 | SharePoint 站点 ID，形如 `contoso.sharepoint.com,<站点 GUID>,<Web GUID>`；填写后上传到该站点的文档库，留空则上传到当前账号的 OneDrive |
+| `ONEDRIVE_PATH` | 可选 | 上传的基础目录，例如 `MSUpdate`，留空则上传到根目录 |
+
+上传目录结构与构建产物的 json 描述一致，为 ONEDRIVE_PATH/os_ver/os_release/os_version，非 SkipCheck 构建还会额外更新 ONEDRIVE_PATH/os_ver/os_release/latest_os_arch.json。
+
+rclone 使用 OneDrive 的分片上传会话，不受单次请求大小限制；脚本会用刷新令牌向 api.oplist.org 换取短时访问令牌，无需手动更新令牌。
+
 ## 构建依赖
 
 本项目需要使用到大量工具进行构建，包括但不限于：
@@ -139,7 +153,7 @@ $SkipCheck     = [bool]   $True
 其它使用到的依赖：
 
 - [aria2c](https://github.com/aria2/aria2)：多线程高速下载
-- [rclone](https://github.com/rclone/rclone)：网盘自动发布
+- [rclone](https://github.com/rclone/rclone)：OneDrive 自动发布
 - [abbodi1406/BatUtil/W10UI](https://github.com/abbodi1406/BatUtil)：集成系统更新
 - [wimlib-imagex](https://wimlib.net/)：镜像信息编辑、ESD 格式转换
 - [M2Team/NanaRun](https://github.com/M2Team/NanaRun)：管理员权限提升
